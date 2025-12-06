@@ -384,7 +384,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                   placeholder="0.00"
                   step="0.01"
                   min="0"
-                  className="border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400 focus:bg-slate-700/50"
+                  className="border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400 focus:bg-slate-700/50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
               </div>
             </>

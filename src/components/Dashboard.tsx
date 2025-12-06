@@ -48,15 +48,26 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
   const suiClient = useSuiClient();
   const [batches, setBatches] = useState<BatchTransaction[]>([]);
   const [escrows, setEscrows] = useState<EscrowData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingEscrows, setIsLoadingEscrows] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingEscrows, setIsLoadingEscrows] = useState(true);
   const packageId = import.meta.env.VITE_PACKAGE_ID;
 
   useEffect(() => {
+    // Reset states when wallet changes
+    setBatches([]);
+    setEscrows([]);
+    
     const fetchTransactions = async () => {
-      if (!walletConnected || !walletAddress || !packageId) return;
+      if (!walletConnected || !walletAddress || !packageId) {
+        setIsLoading(false);
+        return;
+      }
 
       setIsLoading(true);
+      
+      // Add small delay to ensure wallet is fully connected
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       try {
         const result = await suiClient.queryTransactionBlocks({
           filter: {
@@ -114,12 +125,17 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
       }
     };
 
-    fetchTransactions();
-
     const fetchEscrows = async () => {
-      if (!walletConnected || !walletAddress || !packageId) return;
+      if (!walletConnected || !walletAddress || !packageId) {
+        setIsLoadingEscrows(false);
+        return;
+      }
 
       setIsLoadingEscrows(true);
+      
+      // Add small delay to ensure wallet is fully connected
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       try {
         const escrowData: EscrowData[] = [];
         const seenEscrowIds = new Set<string>(); // Prevent duplicates
@@ -262,7 +278,7 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
   if (!walletConnected) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 shadow-lg shadow-blue-500/20">
+        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-brrom-blue-600 to-cyan-600 shadow-lg shadow-blue-500/20">
           <Wallet className="h-10 w-10 text-white" />
         </div>
         <h2 className="mb-3 text-2xl font-bold text-white">Connect Your Wallet</h2>
@@ -336,7 +352,7 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex-1">
                       <div className="mb-3 flex items-center gap-2">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/20">
                           <Shield className="h-5 w-5 text-white" />
                         </div>
                         <div>
@@ -419,13 +435,13 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/20">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/20">
                       <Shield className="h-5 w-5 text-white" />
                     </div>
                     <div>
                       <CardTitle className="flex items-center gap-2 text-lg font-semibold text-white">
                         {escrow.assetType === 'SUI' && <img src={suiLogo} alt="SUI" className="h-5 w-5" />}
-                        ${escrow.assetType} Escrow
+                        {escrow.nftId ? 'NFT Escrow' : `$${escrow.assetType} Escrow`}
                       </CardTitle>
                       <CardDescription className="font-mono text-sm text-gray-400">
                         {escrow.id.slice(0, 10)}...
@@ -445,7 +461,7 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
               <CardContent className="space-y-5">
                 {/* Locked Amount - Prominent Display */}
                 <div className="rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 p-4 shadow-lg shadow-purple-500/10">
-                  <p className="mb-2 text-sm font-medium text-purple-300">Locked Amount</p>
+                  <p className="mb-2 text-sbg-linear-to-brt-purple-300">Locked Amount</p>
                   <div className="flex items-baseline gap-2">
                     <p className="text-3xl font-bold text-white">{escrow.amount}</p>
                     <div className="flex items-center gap-1">
@@ -458,7 +474,7 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
                 {/* Details Grid */}
                 <div className="space-y-3">
                   <div className="rounded-lg bg-slate-700/50 border border-slate-600/50 p-3">
-                    <p className="mb-1.5 text-xs font-medium text-gray-400 uppercase tracking-wide">Counterparty</p>
+                    <p className="mb-1.5 text-xs font-medium text-gray-400 uppercase tracking-wide">Receiver</p>
                     <p className="font-mono text-sm text-white break-all">{escrow.counterparty}</p>
                   </div>
                   

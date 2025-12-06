@@ -3,7 +3,6 @@ import {
   LayoutDashboard, 
   Send, 
   Lock, 
-  Waves, 
   BookUser
 } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,6 +13,7 @@ import './index.css';
 
 // Landing Page bileşenini import et
 import { LandingPage } from './components/LandingPage';
+import ppLogo from './assets/pplogo.png';
 
 // Diğer bileşenlerinizi import edin (Örn: Dashboard, BatchCreate...)
 import { Dashboard } from './components/Dashboard';
@@ -52,13 +52,12 @@ function Navbar({ currentView, setCurrentView, walletConnected }: NavbarProps) {
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center gap-8 flex-1">
             <button onClick={() => setCurrentView('dashboard')} className="flex items-center gap-3 group outline-none">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 border border-blue-400/20 shadow-lg transition-all group-hover:border-cyan-400/50 group-hover:shadow-cyan-400/20">
-                <Waves className="h-5 w-5 text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
-              </div>
-              <div className="flex flex-col items-start">
-                <span className="text-lg font-bold tracking-tight text-white leading-none font-sans">Proto<span className="text-gray-400">Pay</span></span>
-                <span className="text-[10px] font-bold text-cyan-400 tracking-widest uppercase mt-1 pl-px">Testnet</span>
-              </div>
+              <img 
+                src={ppLogo} 
+                alt="ProtoPay" 
+                className="h-12 w-12 transition-all group-hover:scale-105"
+              />
+              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent tracking-tight">ProtoPay</span>
             </button>
 
             {walletConnected && (
@@ -126,6 +125,7 @@ function AppContent() {
             {/* Router Logic */}
             {currentView === 'dashboard' && (
               <Dashboard 
+                key={walletAddress}
                 walletConnected={walletConnected} 
                 walletAddress={walletAddress}
                 onViewEscrow={(escrowId: string) => {

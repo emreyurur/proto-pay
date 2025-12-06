@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { TokenSelector, type TokenType } from './TokenSelector';
+import { Transaction } from '@mysten/sui/transactions';
+import { useSignAndExecuteTransaction, useSuiClient, useCurrentAccount } from '@mysten/dapp-kit';
 import { 
   UserPlus, 
   Users, 
@@ -12,7 +14,8 @@ import {
   X,
   ArrowRight,
   BookUser,
-  Lock
+  Lock,
+  Loader2
 } from 'lucide-react';
 
 interface Contact {
@@ -28,6 +31,11 @@ interface AddressBookProps {
 }
 
 export function AddressBook({ onSendToContact }: AddressBookProps) {
+  const { mutate: signAndExecute } = useSignAndExecuteTransaction();
+  const suiClient = useSuiClient();
+  const currentAccount = useCurrentAccount();
+  const walletAddress = currentAccount?.address || '';
+  
   const [contacts, setContacts] = useState<Contact[]>(() => {
     const saved = localStorage.getItem('sui-proto-contacts');
     return saved ? JSON.parse(saved) : [];
@@ -39,6 +47,7 @@ export function AddressBook({ onSendToContact }: AddressBookProps) {
   const [selectedContactForSend, setSelectedContactForSend] = useState<Contact | null>(null);
   const [sendAmount, setSendAmount] = useState('');
   const [sendToken, setSendToken] = useState<TokenType>('SUI');
+  const [isSending, setIsSending] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const contactsPerPage = 4;
 
@@ -123,10 +132,70 @@ export function AddressBook({ onSendToContact }: AddressBookProps) {
     setSendAmount('');
   };
 
-  const handleSendTransaction = () => {
-    handleCloseSendModal();
-    if (selectedContactForSend) {
-      onSendToContact(selectedContactForSend, 'batch');
+  const handleSendTransaction = async () => {
+    if (!selectedContactForSend || !sendAmount || !walletAddress) return;
+    
+    setIsSending(true);
+    
+    try {
+      const txb = new Transaction();
+      
+      // Determine coin type
+      let coinType = '0x2::sui::SUI';
+      let decimals = 9;
+      
+      if (sendToken === 'USDC') {
+        coinType = '0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC';
+        decimals = 6;
+      }
+      
+      // Convert amount to smallest unit
+      const amountInSmallestUnit = BigInt(Math.floor(parseFloat(sendAmount) * Math.pow(10, decimals)));
+      
+      // Get coins
+      const coins = await suiClient.getCoins({ owner: walletAddress, coinType });
+      if (coins.data.length === 0) {
+        throw new Error(`No ${sendToken} coins found in wallet`);
+      }
+      
+      let coinToSend;
+      
+      if (coinType === '0x2::sui::SUI') {
+        // For SUI, split from gas
+        [coinToSend] = txb.splitCoins(txb.gas, [amountInSmallestUnit]);
+      } else {
+        // For other tokens, merge and split
+        const primaryCoin = txb.object(coins.data[0].coinObjectId);
+        if (coins.data.length > 1) {
+          txb.mergeCoins(primaryCoin, coins.data.slice(1).map(c => txb.object(c.coinObjectId)));
+        }
+        [coinToSend] = txb.splitCoins(primaryCoin, [amountInSmallestUnit]);
+      }
+      
+      // Transfer to recipient
+      txb.transferObjects([coinToSend], selectedContactForSend.address);
+      
+      signAndExecute(
+        { transaction: txb },
+        {
+          onSuccess: (result) => {
+            console.log('Payment sent:', result);
+            alert(`Successfully sent ${sendAmount} ${sendToken} to ${selectedContactForSend.name}!`);
+            handleCloseSendModal();
+            setIsSending(false);
+          },
+          onError: (err) => {
+            console.error(err);
+            alert('Failed to send payment: ' + err.message);
+            setIsSending(false);
+          }
+        }
+      );
+      
+    } catch (error: any) {
+      console.error(error);
+      alert('Error: ' + error.message);
+      setIsSending(false);
     }
   };
 
@@ -423,11 +492,20 @@ export function AddressBook({ onSendToContact }: AddressBookProps) {
                 </button>
                 <button
                   onClick={handleSendTransaction}
-                  disabled={!sendAmount || parseFloat(sendAmount) <= 0}
+                  disabled={!sendAmount || parseFloat(sendAmount) <= 0 || isSending}
                   className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-xl hover:from-cyan-600 hover:to-blue-600 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
                 >
-                  Send Payment
-                  <ArrowRight className="w-4 h-4" />
+                  {isSending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Payment
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>
