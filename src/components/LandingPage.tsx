@@ -1,5 +1,6 @@
 import React from 'react';
-import { Waves, ExternalLink, ArrowRight, Lock, Users, Clock, Shield, Zap, CheckCircle } from 'lucide-react';
+import { ExternalLink, ArrowRight, Lock, Users, Clock, Shield, Zap, CheckCircle } from 'lucide-react';
+import ppLogo from '../assets/pplogo.png';
 
 interface LandingPageProps {
   onConnect: () => void;
@@ -11,14 +12,16 @@ export function LandingPage({ onConnect }: LandingPageProps) {
       <div className="relative mb-10">
         <div className="absolute -inset-12 rounded-full bg-cyan-500/20 blur-3xl animate-pulse"></div>
         <div className="absolute -inset-4 rounded-full bg-blue-600/20 blur-xl"></div>
-        <div className="relative flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-white/10 backdrop-blur-2xl shadow-2xl ring-1 ring-white/5">
-          <Waves className="h-14 w-14 text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
-        </div>
+        <img 
+          src={ppLogo} 
+          alt="ProtoPay" 
+          className="relative h-36 w-36 rounded-3xl drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+        />
       </div>
       
       <div className="space-y-6 max-w-3xl mx-auto">
         <h1 className="text-5xl font-extrabold text-white tracking-tight sm:text-6xl lg:text-7xl">
-          Sui <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient-x">Protocol</span>
+           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient-x">ProtoPay</span>
         </h1>
         <p className="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
           Next generation batch transactions and trustless escrow management on Sui Network. 

@@ -55,7 +55,7 @@ function Navbar({ currentView, setCurrentView, walletConnected }: NavbarProps) {
               <img 
                 src={ppLogo} 
                 alt="ProtoPay" 
-                className="h-12 w-12 transition-all group-hover:scale-105"
+                className="h-12 w-12 rounded-3xl transition-all group-hover:scale-105"
               />
               <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent tracking-tight">ProtoPay</span>
             </button>
