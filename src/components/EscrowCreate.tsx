@@ -8,6 +8,8 @@ import { Alert, AlertDescription } from '../ui/alert';
 import { TokenSelector, type TokenType } from './TokenSelector';
 import { Transaction } from '@mysten/sui/transactions';
 import { useSignAndExecuteTransaction, useSuiClient } from '@mysten/dapp-kit';
+import suiLogo from '../assets/sui-logo.png';
+import yetiImage from '../assets/yeti1.jpg';
 import { 
   Lock, 
   Clock, 
@@ -306,16 +308,16 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                 onClick={() => setAssetCategory('token')}
                 className={`group relative flex items-start gap-4 rounded-xl border-2 p-5 text-left transition-all ${
                   assetCategory === 'token'
-                    ? 'border-cyan-500 bg-cyan-500/10 shadow-lg shadow-cyan-500/20'
+                    ? 'border-cyan-500 bg-slate-900 shadow-lg shadow-cyan-500/20'
                     : 'border-slate-700 bg-slate-900 hover:border-cyan-500/50 hover:shadow-md'
                 }`}
               >
                 <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all ${
                   assetCategory === 'token' 
-                    ? 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30' 
+                    ? ' from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30' 
                     : 'bg-slate-800 group-hover:bg-slate-700'
                 }`}>
-                  <Coins className={`h-6 w-6 ${assetCategory === 'token' ? 'text-white' : 'text-slate-400'}`} />
+                  <img src={suiLogo} alt="Token" className="h-8 w-8 rounded-full" />
                 </div>
                 <div className="flex-1">
                   <p className={`mb-1.5 text-base font-semibold ${assetCategory === 'token' ? 'text-cyan-300' : 'text-slate-100'}`}>
@@ -336,7 +338,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                 onClick={() => setAssetCategory('nft')}
                 className={`group relative flex items-start gap-4 rounded-xl border-2 p-5 text-left transition-all ${
                   assetCategory === 'nft'
-                    ? 'border-purple-500 bg-purple-500/10 shadow-lg shadow-purple-500/20'
+                    ? 'border-purple-500 bg-slate-900 shadow-lg shadow-purple-500/20'
                     : 'border-slate-700 bg-slate-900 hover:border-purple-500/50 hover:shadow-md'
                 }`}
               >
@@ -345,7 +347,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                     ? 'bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg shadow-purple-500/30' 
                     : 'bg-slate-800 group-hover:bg-slate-700'
                 }`}>
-                  <Image className={`h-6 w-6 ${assetCategory === 'nft' ? 'text-white' : 'text-slate-400'}`} />
+                  <img src={yetiImage} alt="NFT" className="h-8 w-8 rounded-full object-cover" />
                 </div>
                 <div className="flex-1">
                   <p className={`mb-1.5 text-base font-semibold ${assetCategory === 'nft' ? 'text-purple-300' : 'text-slate-100'}`}>
@@ -382,7 +384,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                   placeholder="0.00"
                   step="0.01"
                   min="0"
-                  className="border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400"
+                  className="border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400 focus:bg-slate-700/50"
                 />
               </div>
             </>
@@ -397,7 +399,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                 value={nftObjectId}
                 onChange={(e) => setNftObjectId(e.target.value)}
                 placeholder="0x..."
-                className="font-mono text-sm border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400"
+                className="font-mono text-sm border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400 focus:bg-slate-700/50"
               />
               <p className="text-xs text-gray-400">
                 The unique Sui object ID of the NFT you want to lock in escrow
@@ -412,7 +414,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
               value={receiver}
               onChange={(e) => setReceiver(e.target.value)}
               placeholder="0x..."
-              className="font-mono text-sm border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400"
+              className="font-mono text-sm border-slate-600 bg-slate-700/50 text-white placeholder:text-slate-400 focus:bg-slate-700/50"
             />
             <p className="text-xs text-gray-400">
               The address that will receive the escrowed assets upon release
@@ -482,7 +484,7 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
                         value={unlockTime}
                         onChange={(e) => setUnlockTime(e.target.value)}
                         onClick={(e) => e.stopPropagation()}
-                        className="border-slate-600 bg-slate-700/50 text-white"
+                        className="border-slate-600 bg-slate-700/50 text-white focus:bg-slate-700/50"
                       />
                       {unlockTime && (
                         <div className="mt-3 rounded-lg border border-blue-500/50 bg-blue-500/20 p-3">

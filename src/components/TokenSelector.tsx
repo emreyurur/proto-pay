@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
+import suiLogo from '../assets/sui-logo.png';
 import { Button } from '../ui/button';
 import {
   Command,
@@ -50,9 +51,13 @@ export function TokenSelector({ value, onChange }: TokenSelectorProps) {
         >
           {selectedToken && (
             <div className="flex items-center gap-2">
-              <div className={`flex h-6 w-6 items-center justify-center rounded-full ${selectedToken.bgColor}`}>
-              <span className={`text-xs ${selectedToken.color}`}>${selectedToken.symbol[0]}</span>
-              </div>
+              {selectedToken.symbol === 'SUI' ? (
+                <img src={suiLogo} alt="SUI" className="h-6 w-6" />
+              ) : (
+                <div className={`flex h-6 w-6 items-center justify-center rounded-full ${selectedToken.bgColor}`}>
+                  <span className={`text-xs ${selectedToken.color}`}>${selectedToken.symbol[0]}</span>
+                </div>
+              )}
               <span className="text-slate-100">${selectedToken.symbol}</span>
               <span className="text-slate-400">- {selectedToken.name}</span>
             </div>
@@ -77,9 +82,13 @@ export function TokenSelector({ value, onChange }: TokenSelectorProps) {
                   className="cursor-pointer hover:bg-slate-800 data-[selected=true]:bg-cyan-500/20 aria-selected:bg-cyan-500/20"
                 >
                   <div className="flex flex-1 items-center gap-3">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-full ${token.bgColor}`}>
-                      <span className={`${token.color}`}>${token.symbol[0]}</span>
-                    </div>
+                    {token.symbol === 'SUI' ? (
+                      <img src={suiLogo} alt="SUI" className="h-8 w-8" />
+                    ) : (
+                      <div className={`flex h-8 w-8 items-center justify-center rounded-full ${token.bgColor}`}>
+                        <span className={`${token.color}`}>${token.symbol[0]}</span>
+                      </div>
+                    )}
                     <div className="flex flex-col">
                       <span className="text-slate-100">${token.symbol}</span>
                       <span className="text-xs text-slate-400">{token.name}</span>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSuiClient } from '@mysten/dapp-kit';
+import suiLogo from '../assets/sui-logo.png';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
@@ -371,7 +372,10 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
                   <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
                     <div>
                       <p className="mb-1.5 text-sm text-gray-400">Token</p>
-                      <p className="text-lg font-medium text-white">{batch.token}</p>
+                      <div className="flex items-center gap-2">
+                        {batch.token === 'SUI' && <img src={suiLogo} alt="SUI" className="h-5 w-5" />}
+                        <p className="text-lg font-medium text-white">{batch.token}</p>
+                      </div>
                     </div>
                     <div>
                       <p className="mb-1.5 text-sm text-gray-400">Total Value</p>
@@ -419,7 +423,10 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
                       <Shield className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg font-semibold text-white">${escrow.assetType} Escrow</CardTitle>
+                      <CardTitle className="flex items-center gap-2 text-lg font-semibold text-white">
+                        {escrow.assetType === 'SUI' && <img src={suiLogo} alt="SUI" className="h-5 w-5" />}
+                        ${escrow.assetType} Escrow
+                      </CardTitle>
                       <CardDescription className="font-mono text-sm text-gray-400">
                         {escrow.id.slice(0, 10)}...
                       </CardDescription>
@@ -441,7 +448,10 @@ export function Dashboard({ walletConnected, walletAddress, onViewEscrow }: Dash
                   <p className="mb-2 text-sm font-medium text-purple-300">Locked Amount</p>
                   <div className="flex items-baseline gap-2">
                     <p className="text-3xl font-bold text-white">{escrow.amount}</p>
-                    <span className="text-lg font-semibold text-purple-300">${escrow.assetType}</span>
+                    <div className="flex items-center gap-1">
+                      {escrow.assetType === 'SUI' && <img src={suiLogo} alt="SUI" className="h-4 w-4" />}
+                      <span className="text-lg font-semibold text-purple-300">${escrow.assetType}</span>
+                    </div>
                   </div>
                 </div>
                 

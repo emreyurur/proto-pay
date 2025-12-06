@@ -22,6 +22,7 @@ import {
 import { Alert, AlertDescription } from '../ui/alert';
 import { Transaction } from '@mysten/sui/transactions';
 import { useSignAndExecuteTransaction, useSuiClient } from '@mysten/dapp-kit';
+import suiLogo from '../assets/sui-logo.png';
 
 interface BatchCreateProps {
   walletAddress: string;
@@ -249,7 +250,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
       {/* Step 1: Data Input */}
       {currentStep === 1 && (
         <div className="space-y-6">
-          <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm shadow-lg">
+          <Card className="border border-slate-600 bg-slate-800/50 backdrop-blur-sm shadow-lg">
             <CardHeader>
               <CardTitle className="text-white">Select Token</CardTitle>
               <CardDescription className="text-gray-400">
@@ -280,7 +281,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm shadow-lg">
+          <Card className="border border-slate-600 bg-slate-800/50 backdrop-blur-sm shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
                 <Upload className="h-5 w-5 text-cyan-400" />
@@ -348,7 +349,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
       {/* Step 2: Review & Lock */}
       {currentStep === 2 && (
         <div className="space-y-6">
-          <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm shadow-lg">
+          <Card className="border border-slate-600 bg-slate-800/50 backdrop-blur-sm shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
                 <Shield className="h-5 w-5 text-emerald-400" />
@@ -364,7 +365,10 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <p className="mb-1.5 text-xs text-gray-400">Token</p>
-                    <p className="text-white">${assetType}</p>
+                    <div className="flex items-center gap-2">
+                      {assetType === 'SUI' && <img src={suiLogo} alt="SUI" className="h-4 w-4" />}
+                      <p className="text-white">${assetType}</p>
+                    </div>
                   </div>
                   <div>
                     <p className="mb-1.5 text-xs text-gray-400">Total Amount</p>
@@ -494,7 +498,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
       {/* Step 3: Execute */}
       {currentStep === 3 && (
         <div className="space-y-6">
-          <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm shadow-lg">
+          <Card className="border border-slate-600 bg-slate-800/50 backdrop-blur-sm shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
                 <CheckCircle2 className="h-5 w-5 text-emerald-400" />
@@ -519,7 +523,11 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
               <div className="grid grid-cols-2 gap-4 rounded-lg border border-slate-600/50 bg-slate-700/50 p-4">
                 <div>
                   <p className="mb-1.5 text-xs text-gray-400">Total Value</p>
-                  <p className="text-white">{totalAmount.toLocaleString()} ${assetType}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-white">{totalAmount.toLocaleString()}</p>
+                    {assetType === 'SUI' && <img src={suiLogo} alt="SUI" className="h-4 w-4" />}
+                    <p className="text-white">${assetType}</p>
+                  </div>
                 </div>
                 <div>
                   <p className="mb-1.5 text-xs text-gray-400">Recipients</p>
@@ -536,11 +544,19 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
                 )}
                 <div className="col-span-2">
                   <p className="mb-1.5 text-xs text-gray-400">Service Fee (0.5%)</p>
-                  <p className="text-sm text-white">{(totalAmount * 0.005).toFixed(4)} SUI</p>
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm text-white">{(totalAmount * 0.005).toFixed(4)}</p>
+                    <img src={suiLogo} alt="SUI" className="h-3.5 w-3.5" />
+                    <p className="text-sm text-white">SUI</p>
+                  </div>
                 </div>
                 <div className="col-span-2">
                   <p className="mb-1.5 text-xs text-gray-400">Estimated Gas Fee</p>
-                  <p className="text-sm text-white">~0.01 SUI (PTB Transaction)</p>
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm text-white">~0.01</p>
+                    <img src={suiLogo} alt="SUI" className="h-3.5 w-3.5" />
+                    <p className="text-sm text-white">SUI (PTB Transaction)</p>
+                  </div>
                 </div>
               </div>
 

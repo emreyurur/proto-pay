@@ -56,7 +56,7 @@ function Navbar({ currentView, setCurrentView, walletConnected }: NavbarProps) {
                 <Waves className="h-5 w-5 text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-lg font-bold tracking-tight text-white leading-none font-sans">Sui<span className="text-gray-400">Proto</span></span>
+                <span className="text-lg font-bold tracking-tight text-white leading-none font-sans">Proto<span className="text-gray-400">Pay</span></span>
                 <span className="text-[10px] font-bold text-cyan-400 tracking-widest uppercase mt-1 pl-px">Testnet</span>
               </div>
             </button>
