@@ -1,4 +1,3 @@
-import React from 'react';
 import { ExternalLink, ArrowRight, Lock, Users, Clock, Shield, Zap, CheckCircle } from 'lucide-react';
 import ppLogo from '../assets/pplogo.png';
 

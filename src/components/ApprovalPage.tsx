@@ -11,7 +11,6 @@ import {
   ExternalLink,
   ArrowLeft,
   AlertTriangle,
-  Zap,
   Copy
 } from 'lucide-react';
 import { motion } from 'framer-motion';

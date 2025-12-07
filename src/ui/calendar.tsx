@@ -4,7 +4,6 @@ import * as React from "react"
 // ChevronLeft ve ChevronRight artık doğrudan DayPicker'ın components prop'unda kullanılmayacak,
 // ancak başka yerlerde (örneğin özel navigasyon butonları içinde) kullanılıyorsa kalsın.
 // Eğer sadece burada kullanılıyorsa ve hata veriyorsa kaldırılabilir.
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker" 
 
 // cn yardımcı fonksiyonu. Kendi utils dosyanızın yolunu doğru belirttiğinizden emin olun.

@@ -335,7 +335,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
               <Button 
                 onClick={parseCsvData}
                 disabled={!csvInput.trim() || (assetType === 'OTHER' && !customTokenObjectId.trim())}
-                className="w-full gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg shadow-blue-500/25 text-white"
+                className="w-full gap-2 bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg shadow-blue-500/25 text-white"
                 size="lg"
               >
                 Validate & Continue
@@ -484,7 +484,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
                 <Button 
                   onClick={lockBatchList}
                   disabled={validRecipients !== recipients.length}
-                  className="flex-1 gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 text-white"
+                  className="flex-1 gap-2 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 text-white"
                 >
                   <Lock className="h-4 w-4" />
                   Lock List
@@ -564,7 +564,7 @@ export function BatchCreate({ walletAddress }: BatchCreateProps) {
               <Button 
                 onClick={executeBatch}
                 disabled={isExecuting}
-                className="w-full gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 py-6 shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-cyan-700 text-white"
+                className="w-full gap-2 bg-linear-to-r from-blue-600 to-cyan-600 py-6 shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-cyan-700 text-white"
                 size="lg"
               >
                 <Zap className="h-5 w-5" />

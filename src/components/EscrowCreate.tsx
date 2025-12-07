@@ -19,8 +19,6 @@ import {
   CheckCircle2,
   ExternalLink,
   ArrowLeft,
-  Coins,
-  Image
 } from 'lucide-react';
 
 interface EscrowCreateProps {
@@ -506,16 +504,17 @@ export function EscrowCreate({ walletAddress, prefilledReceiver = '' }: EscrowCr
           <Button 
             onClick={createEscrow}
             disabled={
+              isCreating ||
               !receiver ||
               (assetCategory === 'token' && !amount) ||
               (assetCategory === 'nft' && !nftObjectId) ||
               (releaseCondition === 'timelock' && !unlockTime)
             }
-            className="w-full gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-6 shadow-lg shadow-purple-500/25 hover:from-purple-700 hover:to-pink-700 text-white"
+            className="w-full gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-6 shadow-lg shadow-purple-500/25 hover:from-purple-700 hover:to-pink-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             size="lg"
           >
             <Lock className="h-5 w-5" />
-            Create Escrow via Slush Wallet
+            {isCreating ? 'Creating Escrow...' : 'Create Escrow via Slush Wallet'}
           </Button>
         </CardContent>
       </Card>
